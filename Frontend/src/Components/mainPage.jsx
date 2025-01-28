@@ -1,12 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Style from "../App.module.css";
+import {
+  FaHome,
+  FaBalanceScale,
+  FaClipboardCheck,
+  FaMoneyCheckAlt,
+} from "react-icons/fa";
 import axios from "axios";
 
 function MainPage() {
   const navigate = useNavigate();
   const [showUserInfo, setShowUserInfo] = useState(false);
-
 
   function logoutUser() {
     localStorage.removeItem("authToken");
@@ -15,8 +20,8 @@ function MainPage() {
 
   let userFirstName = localStorage.getItem("userFirstName") || "John";
   let userLastName = localStorage.getItem("userLastName") || "Doe";
-  let userEmailAddress = localStorage.getItem("userEmailAddress") || "john.doe@example.com";
-
+  let userEmailAddress =
+    localStorage.getItem("userEmailAddress") || "john.doe@example.com";
 
   return (
     <>
@@ -30,6 +35,15 @@ function MainPage() {
             <div className={Style.linkNavBarMainPage}>
               <Link className={Style.linkElementNavBar} to="/mainPage">
                 Home
+              </Link>
+              <Link className={Style.linkElementNavBar} to="/mainPage">
+                Bias
+              </Link>
+              <Link className={Style.linkElementNavBar} to="/mainPage">
+                Loans
+              </Link>
+              <Link className={Style.linkElementNavBar} to="/mainPage">
+                Advice
               </Link>
             </div>
 
@@ -57,7 +71,7 @@ function MainPage() {
 
           {/* section 1 Main Page */}
 
-       
+          
         </div>
       </div>
     </>
