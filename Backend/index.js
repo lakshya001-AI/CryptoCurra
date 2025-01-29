@@ -8,6 +8,8 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken"); // Import jwt
 const biasRoute = require("./routes/biasroute");
 const bodyParser = require("body-parser");
+const { exec } = require('child_process');
+const axios = require("axios");
 const {Configuration, PlaidApi, PlaidEnvironments } = require("plaid");
 
 dotenv.config();
@@ -122,23 +124,140 @@ app.use("/api/bias", biasRoute);
 // loan approval route 
 
 // Loan Approval Route
-app.post("/loanApproval", (req, res) => {
-  const formData = req.body; // Get the data sent from the frontend
+// app.post("/loanApproval", async (req, res) => {
+//   const formData = req.body;  // Data from the frontend (user input)
 
-  // Log the data in the backend
-  console.log("Received Data:", formData);
+//   try {
+//     console.log("Received Data:", formData);
 
-  // Respond back to the frontend
-  res.status(200).json({
-    message: "Data received successfully",
-    receivedData: formData,
-  });
+//     // Convert formData to JSON string for passing into the Python script
+//     const jsonData = JSON.stringify(formData);
+
+//     // Run the Python script
+//     const pythonScriptPath = '../loanApproval/predict.py';
+//     exec(`python ${pythonScriptPath}`, { input: jsonData }, async (error, stdout, stderr) => {
+//       if (error) {
+//         console.error(`Error executing Python script: ${error}`);
+//         return res.status(500).json({ error: "Failed to process prediction" });
+//       }
+
+//       // Parse the result from the Python script
+//       const predictionResult = JSON.parse(stdout);
+//       console.log("Prediction Result from Python:", predictionResult);
+
+//       // Save the result in the database (assuming formData contains user email)
+//       const userEmail = formData.emailAddress;
+//       const user = await userModel.findOne({ emailAddress: userEmail });
+
+//       if (user) {
+//         // Save the prediction result in the user's record (e.g., in the loanStatus array)
+//         user.loanStatus.push(predictionResult);
+//         await user.save();
+//       } else {
+//         return res.status(404).json({ error: "User not found" });
+//       }
+
+//       // Send the prediction result back to the frontend
+//       res.status(200).json(predictionResult);
+//     });
+
+//   } catch (error) {
+//     console.error("Error processing loan approval:", error);
+//     res.status(500).json({ error: "An error occurred" });
+//   }
+// });
+
+app.post("/loanApproval", async (req, res) => {
+  const formData = req.body;  // Data from the frontend (user input)
+
+  try {
+    console.log("Received Data:", formData);
+
+    // Send data to the Python Flask service
+    const response = await axios.post('http://localhost:3000/loanApproval', formData);
+
+    // Log and send the prediction result back to the frontend
+    console.log("Prediction Result from Python:", response.data);
+    res.status(200).json(response.data);
+
+  } catch (error) {
+    console.error("Error processing loan approval:", error);
+    res.status(500).json({ error: "An error occurred" });
+  }
 });
+
+// app.post("/savePrediction", async (req, res) => {
+//   const { predictionResult, userEmailAddress } = req.body;
+
+//   try {
+//     // Find the user by email address
+//     const user = await userModel.findOne({ emailAddress: userEmailAddress });
+
+//     if (!user) {
+//       return res.status(404).json({ error: "User not found" });
+//     }
+
+//     // Prepare the loan status to be saved
+//     const loanStatus = {
+//       result: predictionResult.result,
+//       probabilities: predictionResult.probabilities,
+//       reasons: predictionResult.reasons,
+//       lime_explanation: predictionResult.lime_explanation,
+//     };
+
+//     // Save the loan status to the user's document
+//     user.loanStatus.push(loanStatus);
+    
+//     // Save the user document with the updated loan status
+//     await user.save();
+
+//     res.status(200).json({ message: "Prediction saved successfully!" });
+//   } catch (error) {
+//     console.error("Error saving prediction:", error);
+//     res.status(500).json({ error: "An error occurred while saving the result." });
+//   }
+// });
+
+
 
 
 
 
 // Start the Server
+
+app.post("/savePrediction", async (req, res) => {
+  const { predictionResult, userEmailAddress } = req.body;
+
+  try {
+    // Find the user by email address
+    const user = await userModel.findOne({ emailAddress: userEmailAddress });
+
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    // Prepare the loan status to be saved
+    const loanStatus = {
+      result: predictionResult.result,
+      probabilities: predictionResult.probabilities,
+      reasons: predictionResult.reasons,
+      lime_explanation: predictionResult.lime_explanation.map(item => [item[0], item[1]]),  // Ensure correct format
+    };
+
+    // Save the loan status to the user's document
+    user.loanStatus.push(loanStatus);
+    
+    // Save the user document with the updated loan status
+    await user.save();
+
+    res.status(200).json({ message: "Prediction saved successfully!" });
+  } catch (error) {
+    console.error("Error saving prediction:", error);
+    res.status(500).json({ error: "An error occurred while saving the result." });
+  }
+});
+
+
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`Server is running on Port ${PORT}`);

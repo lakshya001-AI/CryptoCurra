@@ -4,6 +4,10 @@ import Style from "../App.module.css";
 import axios from "axios";
 
 function LoanApproval() {
+  let userFirstName = localStorage.getItem("userFirstName") || "John";
+  let userLastName = localStorage.getItem("userLastName") || "Doe";
+  let userEmailAddress = localStorage.getItem("userEmailAddress") || "john.doe@example.com";
+
   const navigate = useNavigate();
   const [showUserInfo, setShowUserInfo] = useState(false);
   const [formData, setFormData] = useState({
@@ -29,7 +33,7 @@ function LoanApproval() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+
     // Convert numeric fields to numbers where necessary
     const dataToSend = {
       ...formData,
@@ -39,14 +43,14 @@ function LoanApproval() {
       Loan_Amount_Term: Number(formData.Loan_Amount_Term),
       Credit_History: Number(formData.Credit_History),
     };
-  
+
     try {
-      // Updated the API endpoint to match the backend route
+      // Send request to backend for prediction
       const response = await axios.post("http://localhost:5000/loanApproval", dataToSend);
-      alert("Data sended successfully");
+      alert("Data sent successfully!");
       console.log("Response from backend:", response.data);
-  
-      // Handle the response if needed
+
+      // Update the prediction result state with the response data
       setPredictionResult(response.data);
     } catch (error) {
       console.error("Error making prediction:", error);
@@ -54,14 +58,26 @@ function LoanApproval() {
     }
   };
 
+  const savePredictionResult = async () => {
+    try {
+      // Send the result to the backend to save it in the database
+      const saveResponse = await axios.post("http://localhost:5000/savePrediction", {
+        predictionResult: predictionResult,
+        userEmailAddress: userEmailAddress,  // Make sure to pass userEmailAddress
+      });
+      
+      alert("Prediction saved successfully!");
+      console.log("Saved prediction:", saveResponse.data);
+    } catch (error) {
+      console.error("Error saving prediction:", error);
+      alert("An error occurred while saving the result.");
+    }
+  };
+
   const logoutUser = () => {
     localStorage.removeItem("authToken");
     navigate("/");
   };
-
-  let userFirstName = localStorage.getItem("userFirstName") || "John";
-  let userLastName = localStorage.getItem("userLastName") || "Doe";
-  let userEmailAddress = localStorage.getItem("userEmailAddress") || "john.doe@example.com";
 
   return (
     <div className={Style.mainDiv}>
@@ -111,7 +127,7 @@ function LoanApproval() {
         {/* Loan Approval Form */}
         <div className={Style.formContainer} style={{ color: "white" }}>
           <h2>Loan Approval Prediction</h2>
-          <form onSubmit={(e)=>handleSubmit()}>
+          <form onSubmit={handleSubmit}>
             {Object.keys(formData).map((key) => (
               <div key={key} className={Style.formGroup}>
                 <label htmlFor={key}>{key.replace(/_/g, " ")}</label>
@@ -129,18 +145,37 @@ function LoanApproval() {
               Predict
             </button>
           </form>
+
+          {/* Prediction Result */}
           {predictionResult && (
             <div className={Style.resultContainer}>
               <h3>Prediction Result</h3>
               <p>
                 <strong>Status:</strong> {predictionResult.result}
               </p>
-              <p><strong>Reason:</strong></p>
+              <p>
+                <strong>Approved Probability:</strong> {predictionResult.probabilities.Approved}
+              </p>
+              <p>
+                <strong>Rejected Probability:</strong> {predictionResult.probabilities.Rejected}
+              </p>
+              <p><strong>Reasons:</strong></p>
               <ul>
-                {predictionResult.reason.map((reason, index) => (
+                {predictionResult.reasons.map((reason, index) => (
                   <li key={index}>{reason[0]}: {reason[1]}</li>
                 ))}
               </ul>
+              <p><strong>LIME Explanation:</strong></p>
+              <ul>
+                {predictionResult.lime_explanation.map((explanation, index) => (
+                  <li key={index}>{explanation[0]}: {explanation[1].toFixed(4)}</li>
+                ))}
+              </ul>
+
+              {/* Save Button */}
+              <button onClick={savePredictionResult} className={Style.saveButton}>
+                Save Prediction
+              </button>
             </div>
           )}
         </div>
@@ -150,3 +185,4 @@ function LoanApproval() {
 }
 
 export default LoanApproval;
+
