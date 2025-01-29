@@ -63,7 +63,7 @@ function BiasDetection() {
                       <Link className={Style.linkElementNavBar} to="/loanApproval">
                         Loans
                       </Link>
-                      <Link className={Style.linkElementNavBar} to="/mainPage">
+                      <Link className={Style.linkElementNavBar} to="/financialAdvice">
                         Advice
                       </Link>
                     </div>
