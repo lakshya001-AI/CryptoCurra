@@ -1,13 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Style from "../App.module.css";
-import {
-  FaHome,
-  FaBalanceScale,
-  FaClipboardCheck,
-  FaMoneyCheckAlt,
-} from "react-icons/fa";
-import axios from "axios";
 
 function MainPage() {
   const navigate = useNavigate();
@@ -36,10 +29,10 @@ function MainPage() {
               <Link className={Style.linkElementNavBar} to="/mainPage">
                 Home
               </Link>
-              <Link className={Style.linkElementNavBar} to="/mainPage">
+              <Link className={Style.linkElementNavBar} to="/biasDetection">
                 Bias
               </Link>
-              <Link className={Style.linkElementNavBar} to="/mainPage">
+              <Link className={Style.linkElementNavBar} to="/loanApproval">
                 Loans
               </Link>
               <Link className={Style.linkElementNavBar} to="/mainPage">

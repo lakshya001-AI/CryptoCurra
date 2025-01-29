@@ -6,11 +6,16 @@ const connectMongoDB = require("./Database/connectDB");
 const userModel = require("./Database/userSchema");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken"); // Import jwt
+const biasRoute = require("./routes/biasroute");
+const bodyParser = require("body-parser");
+const {Configuration, PlaidApi, PlaidEnvironments } = require("plaid");
+
 dotenv.config();
 connectMongoDB();
 
 app.use(express.json());
 app.use(cors());
+app.use(bodyParser.json());
 
 // JWT Secret Key
 const JWT_SECRET = process.env.JWT_SECRET || "mySuperSecretKey12345!@";
@@ -103,7 +108,6 @@ const verifyToken = (req, res, next) => {
   }
 };
 
-
 // Example of a Protected Route
 app.get("/protectedRoute", verifyToken, (req, res) => {
   res.status(200).send({
@@ -111,6 +115,28 @@ app.get("/protectedRoute", verifyToken, (req, res) => {
     user: req.user, // Return user data from token
   });
 });
+
+// Bias Detection Route
+app.use("/api/bias", biasRoute);
+
+// loan approval route 
+
+// Loan Approval Route
+app.post("/loanApproval", (req, res) => {
+  const formData = req.body; // Get the data sent from the frontend
+
+  // Log the data in the backend
+  console.log("Received Data:", formData);
+
+  // Respond back to the frontend
+  res.status(200).json({
+    message: "Data received successfully",
+    receivedData: formData,
+  });
+});
+
+
+
 
 // Start the Server
 const PORT = process.env.PORT || 5000;

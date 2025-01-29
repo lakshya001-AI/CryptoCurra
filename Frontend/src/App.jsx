@@ -6,6 +6,8 @@ import { GoogleOAuthProvider } from '@react-oauth/google';
 import CreateAccount from './Components/createAccount';
 import MainPage from './Components/mainPage';
 import ProtectedRoute from './Components/protectedRoute';
+import BiasDetection from './Components/biasDetection';
+import LoanApproval from './Components/loanApproval';
 
 function App() {
   return <>
@@ -14,6 +16,8 @@ function App() {
     <Route path='/' element={<GoogleOAuthProvider clientId='1060507592574-4rd8f30c3s68qe277a15ic82g736sgur.apps.googleusercontent.com'><Login/></GoogleOAuthProvider>}/>
     <Route path='/createAccount' element={<GoogleOAuthProvider clientId='1060507592574-4rd8f30c3s68qe277a15ic82g736sgur.apps.googleusercontent.com'><CreateAccount/></GoogleOAuthProvider>}/>
     <Route path='/mainPage' element={<ProtectedRoute><MainPage/></ProtectedRoute>}/>
+    <Route path='/biasDetection' element={<ProtectedRoute><BiasDetection/></ProtectedRoute>}/>
+    <Route path='/loanApproval' element={<ProtectedRoute><LoanApproval/></ProtectedRoute>}/>
   </Routes>
   </BrowserRouter>
   </>
