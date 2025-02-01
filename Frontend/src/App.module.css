@@ -9,6 +9,7 @@
 html, body{
     width: 100%;
     height: 100%;
+    background-color: rgb(23, 23, 23);
 }
 
 /* Scrollbar styling */
@@ -229,6 +230,7 @@ html, body{
     align-items: center;
     justify-content: space-between;
     color: white;
+    background-color: rgb(18, 18, 18);
 }
 
 .logoNavBarMainPage h1{
@@ -320,3 +322,312 @@ html, body{
 }
 
 
+.section1MainPage{
+    width: 100%;
+    height: 86vh;
+    background-image: url("https://img.freepik.com/free-photo/person-report-consulting-account-people-table_1418-76.jpg?t=st=1738393929~exp=1738397529~hmac=436cc8a5c1eaa6f8310c9b106eec0804591e39fcd7bb24cee4929a14a478b52e&w=1060");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    position: relative;
+}
+
+.section1MainPageOverlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7); /* 50% opacity */
+    padding: 20px 40px;
+}
+
+.section1MainPageOverlay h1{
+    color: white;
+    font-size: 72px;
+    width: 37%;
+    margin-top: 30px;
+}
+
+.section1MainPageOverlay p{
+    color: rgb(199, 199, 199);
+    width: 38%;
+    margin-top: 30px;
+    font-size: 19px;
+}
+
+.btnDivSection1MainPageOverlay{
+    margin-top: 50px;
+}
+
+.gettingStartedBtn{
+    width: 9vmax;
+    background: linear-gradient(to right, #4776E6 0%, #8E54E9  51%, #4776E6  100%);
+    margin: 10px;
+    padding: 10px 30px;
+    text-align: center;
+    text-transform: uppercase;
+    background-size: 200% auto;
+    color: white;            
+    border: none;
+    cursor: pointer;
+    font-size: 15px;
+}
+
+.gettingStartedBtn:hover{
+    background-position: right center;
+}
+
+.learnMoreBtn{
+    padding: 10px 30px;
+    font-size: 15px;
+    margin-left: 10px;
+    cursor: pointer;
+}
+
+.gradientText{
+    background: linear-gradient(to right, #4776E6 0%, #8E54E9 51%, #4776E6 100%);
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+.gradientText1{
+    background: linear-gradient(to right, #4776E6 0%, #8E54E9 51%, #4776E6 100%);
+    -webkit-background-clip: text;
+    color: transparent;
+    margin-left: 7px;
+}
+
+.section2MainPage {
+    width: 100%;
+    color: white;
+    padding: 50px 40px;
+    position: relative;
+    background-color: rgb(23, 23, 23);
+    height: 85vh;
+}
+
+/* Heading */
+.section2MainPageHeading {
+    font-size: 2.9rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-top: 50px;
+}
+
+/* Paragraph */
+.section2MainPagePara {
+    font-size: 1.2rem;
+    width: 70%;
+    margin-bottom: 40px;
+    color: rgb(199, 199, 199);
+}
+
+/* Feature section */
+.featureDiv {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+/* Individual feature */
+.feature {
+    flex: 1 1 30%;
+    padding: 30px;
+    background: linear-gradient(to right, #4776E6 0%, #8E54E9 51%, #4776E6 100%);
+    background-size: 200% 200%;
+    color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    animation: gradient-animation 3s ease infinite;
+    transition: transform 0.3s ease;
+    height: 15vmax;
+}
+
+/* Feature hover effect */
+.feature:hover {
+    transform: translateY(-10px);
+}
+
+/* Gradient animation for features */
+@keyframes gradient-animation {
+    0% {
+        background-position: 200% 0;
+    }
+    50% {
+        background-position: -200% 0;
+    }
+    100% {
+        background-position: 200% 0;
+    }
+}
+
+/* Heading inside feature */
+.feature h1 {
+    font-size: 1.8rem;
+    font-weight: bold;
+    margin-bottom: 15px;
+    margin-top: 5px;
+}
+
+/* Paragraph inside feature */
+.feature p {
+    font-size: 1.1rem;
+    margin-bottom: 20px;
+    color: rgb(240, 240, 240);
+}
+
+/* Link inside feature */
+.feature a {
+    color: white;
+    text-decoration: underline;
+    font-weight: bold;
+}
+
+.borderDiv{
+    height: 35px;
+    width: 4px;
+    background: linear-gradient(to right, #4776E6 0%, #8E54E9 51%, #4776E6 100%);
+    margin-right: 10px;
+    border-radius: 20px;
+}
+
+.section3MainPage{
+    width: 100%;
+    background-image: url("https://img.freepik.com/free-photo/close-up-businessman-with-digital-tablet_1098-549.jpg?t=st=1738401999~exp=1738405599~hmac=d2bd5d7fabd5275a4f01effac3227741e17f17867ca07ff91fec38ecd083a78f&w=740");
+    height: 20vmax;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+}
+
+.section3MainPageOverlay{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7); /* 50% opacity */
+    padding: 20px 40px;
+    color: white;
+}
+
+.section3MainPageHeading{
+    font-size: 2.9rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.learnMoreBtn1{
+    padding: 10px 30px;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+.section3MainPagePara{
+    font-size: 1.2rem;
+    width: 80%;
+    margin-bottom: 30px;
+    color: rgb(199, 199, 199);
+}
+
+
+.footerSection{
+    background-color: rgb(23, 23, 23);
+    color: white;
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    padding: 10px;
+}
+
+.section4MainPage{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    color: white;
+    background-color: rgb(23, 23, 23);
+}
+
+.step{
+    width: 35vmax;
+    flex: 1 1 30%;
+    padding: 20px;
+    background: linear-gradient(to right, #4776E6 0%, #8E54E9 51%, #4776E6 100%);
+    background-size: 200% 200%;
+    color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    animation: gradient-animation 3s ease infinite;
+    transition: transform 0.3s ease;
+    margin-bottom: 25px;
+}
+
+.stepNumberAndHeadingDiv{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.stepNumberPara{
+    padding: 6px;
+    background-color: white;
+    border-radius: 100px;
+    color: black;
+    width: 2.5vmax;
+    text-align: center;
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.stepHeading{
+    margin-left: 10px;
+    font-size: 24px;
+    font-weight: 700;
+}
+
+.stepExplanationPara{
+    margin-top: 10px;
+    font-size: 18px;
+}
+
+.section4MainPageDiv1{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    padding: 30px 40px;
+    margin-top: 90px;
+    margin-bottom: 90px;
+}
+
+.section4MainPageDiv2{
+    display: flex;
+    flex-direction: column;
+    padding: 30px 40px;
+    margin-top: 90px;
+    margin-bottom: 90px;
+}
+
+
+.section4MainPageHeading{
+    font-size: 70px;
+    margin-top: 30px;
+}
+
+.section4MainPagePara{
+    width: 50vmax;
+    font-size: 21px;
+    margin-top: 30px;
+    color: rgb(181, 181, 181);
+}
