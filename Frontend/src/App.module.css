@@ -388,6 +388,7 @@ html, body{
 .gradientText{
     background: linear-gradient(to right, #4776E6 0%, #8E54E9 51%, #4776E6 100%);
     -webkit-background-clip: text;
+    background-clip: none;
     color: transparent;
 }
 
@@ -396,6 +397,7 @@ html, body{
     -webkit-background-clip: text;
     color: transparent;
     margin-left: 7px;
+    background-clip: none;
 }
 
 .section2MainPage {
