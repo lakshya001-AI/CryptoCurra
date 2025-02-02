@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Style from "../App.module.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faUser, faSignOutAlt, faInfoCircle , faArrowUpRightFromSquare } from "@fortawesome/free-solid-svg-icons";
 
 function MainPage() {
   const navigate = useNavigate();
@@ -94,17 +96,17 @@ function MainPage() {
               <div className={Style.feature}>
                 <h1>Bias-Free Loan Approvals</h1>
                 <p>Our AI-powered platform ensures fair and unbiased decisions for all users. Say goodbye to discrimination and hello to equal opportunities.</p>
-                <a href="">learn more</a>
+                <a href="">learn more <FontAwesomeIcon icon={faArrowUpRightFromSquare}/></a>
               </div>
               <div className={Style.feature}>
                 <h1>Instant Loan Prediction</h1>
                 <p>Get real-time insights into your loan eligibility with detailed explanations. Understand the 'why' behind every decision.</p>
-                <a href="">learn more</a>
+                <a href="">learn more <FontAwesomeIcon icon={faArrowUpRightFromSquare}/></a>
               </div>
               <div className={Style.feature}>
                 <h1>Personalized Financial Advice</h1>
                 <p>With cutting-edge AI and expert recommendations, get tailored advice that suits your financial goals and lifestyle.</p>
-                <a href="">learn more</a>
+                <a href="">learn more <FontAwesomeIcon icon={faArrowUpRightFromSquare}/></a>
               </div>
             </div>
  
