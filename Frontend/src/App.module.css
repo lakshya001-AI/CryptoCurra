@@ -633,3 +633,193 @@ html, body{
     margin-top: 30px;
     color: rgb(181, 181, 181);
 }
+
+/* Bias Prediction CSS */
+
+.biasPredictionMainDiv {
+    width: 100%;
+    height: 89.5vh;
+    background-color: rgb(18, 18, 18);
+    padding: 20px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    color: white;
+}
+
+/* Gradient for the first div */
+.biasPredictionMainDiv1 {
+    width: 30%;
+    height: 100%;
+    background: linear-gradient(to right, #4776E6 0%, #8E54E9 51%, #4776E6 100%);
+    border-radius: 15px;
+    padding: 20px;
+    margin-bottom: 30px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    margin-right: 20px;
+}
+
+/* Second Div Styling */
+.biasPredictionMainDiv2 {
+    width: 70%;
+    background-color: #1f1f1f;
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+
+.biasPredictionMainDiv1Heading{
+    font-size: 69px;
+}
+
+.biasPredictionMainDiv1Para{
+    margin-top: 10px;
+    font-size: 18px;
+    color: rgb(240, 240, 240);
+    font-style: oblique;
+}
+
+.BiasDetectionStepsDiv{
+    display: flex;
+    flex-direction: column;
+    margin-top: 4%;
+}
+
+
+.BiasDetectionStepDiv{
+    margin-top: 15px;
+}
+
+
+
+
+
+/* Form Styling */
+.biasPredictionMainDiv2 form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 20px;
+    margin-top: 30px;
+}
+
+.biasPredictionMainDiv2 input[type="file"] {
+    width: 70%;
+    background-color: #1a1a1a;
+    color: white;
+    padding: 30px;
+    border: 1px solid #4776E6;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 17px;
+    border-radius: 10px;
+}
+
+.biasPredictionMainDiv2 button {
+    background: linear-gradient(to right, #4776E6 0%, #8E54E9 51%, #4776E6 100%);
+    color: white;
+    padding: 15px 80px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: transform 0.2s;
+    margin-top: 10px;
+    font-size: 18px;
+}
+
+.biasPredictionMainDiv2 button:hover {
+    transform: scale(1.05);
+}
+
+/* Results Styling */
+.biasPredictionMainDiv2 h2, .biasPredictionMainDiv2 h3 {
+    margin-bottom: 10px;
+    text-align: center;
+    color: #8E54E9;
+}
+
+.biasPredictionMainDiv2 p, .biasPredictionMainDiv2 pre {
+    margin-left: 10px;
+    margin-bottom: 10px;
+    color: #ddd;
+}
+
+/* Error Message */
+.biasPredictionMainDiv2 p[style*="color: red"] {
+    font-weight: bold;
+}
+
+.resultsContainer {
+    padding: 20px;
+    border-radius: 15px;
+  }
+  
+  .resultsContainer h2, .resultsContainer h3 {
+    color: #8E54E9;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .resultsContainer p, .resultsContainer ul {
+    font-size: 16px;
+    color: #ddd;
+  }
+  
+  .resultsContainer ul {
+    margin-left: 30px;
+    margin-top: 20px;
+  }
+  
+  .resultsContainer ul li {
+    margin-bottom: 10px;
+    list-style: disc;
+  }
+  
+  .resultsContainer .conclusion h3 {
+    margin-top: 30px;
+    text-align: left;
+    margin-left: 10px;
+    font-size: 28px;
+    color: white;
+  }
+  
+  .resultsContainer .conclusion p {
+    font-size: 15px;
+    color: #eee;
+  }
+  
+  .resultsContainer .conclusion ul {
+    margin-top: 20px;
+    color: #FF6347;
+  }
+
+  .overAllModelAccuracyPara{
+    width: 100%;
+  }
+
+
+  .overAllModelAccuracyPara strong{
+    font-size: 28px;
+  }
+
+  .overAllModelAccuracyPara span{
+    font-size: 28px;
+    font-weight: bold;
+  }
+  
+
+  .loadingContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    font-size: 20px;
+    color: #8E54E9;
+  }
+  
+  .loadingContainer p {
+    font-weight: bold;
+  }
