@@ -6,7 +6,8 @@ import axios from "axios";
 function LoanApproval() {
   let userFirstName = localStorage.getItem("userFirstName") || "John";
   let userLastName = localStorage.getItem("userLastName") || "Doe";
-  let userEmailAddress = localStorage.getItem("userEmailAddress") || "john.doe@example.com";
+  let userEmailAddress =
+    localStorage.getItem("userEmailAddress") || "john.doe@example.com";
 
   const navigate = useNavigate();
   const [showUserInfo, setShowUserInfo] = useState(false);
@@ -46,7 +47,10 @@ function LoanApproval() {
 
     try {
       // Send request to backend for prediction
-      const response = await axios.post("http://localhost:5000/loanApproval", dataToSend);
+      const response = await axios.post(
+        "http://localhost:5000/loanApproval",
+        dataToSend
+      );
       alert("Data sent successfully!");
       console.log("Response from backend:", response.data);
 
@@ -61,11 +65,14 @@ function LoanApproval() {
   const savePredictionResult = async () => {
     try {
       // Send the result to the backend to save it in the database
-      const saveResponse = await axios.post("http://localhost:5000/savePrediction", {
-        predictionResult: predictionResult,
-        userEmailAddress: userEmailAddress,  // Make sure to pass userEmailAddress
-      });
-      
+      const saveResponse = await axios.post(
+        "http://localhost:5000/savePrediction",
+        {
+          predictionResult: predictionResult,
+          userEmailAddress: userEmailAddress, // Make sure to pass userEmailAddress
+        }
+      );
+
       alert("Prediction saved successfully!");
       console.log("Saved prediction:", saveResponse.data);
     } catch (error) {
@@ -124,60 +131,46 @@ function LoanApproval() {
           </div>
         </div>
 
-        {/* Loan Approval Form */}
-        <div className={Style.formContainer} style={{ color: "white" }}>
-          <h2>Loan Approval Prediction</h2>
-          <form onSubmit={handleSubmit}>
-            {Object.keys(formData).map((key) => (
-              <div key={key} className={Style.formGroup}>
-                <label htmlFor={key}>{key.replace(/_/g, " ")}</label>
-                <input
-                  type="text"
-                  id={key}
-                  name={key}
-                  value={formData[key]}
-                  onChange={handleChange}
-                  required
-                />
+        <div className={Style.loanApprovalMainDiv}>
+          <div className={Style.loanApprovalMainDivInnerDiv}>
+            <h1 className={Style.loanApprovalHeading}>
+              Know Your Loan Approval{" "}
+              <span class={Style.gradientText}>Instantly.</span>
+            </h1>
+            <p className={Style.loanApprovalPara}>
+              Secure, Accurate, and Reliable
+            </p>
+
+            <div className={Style.loanApprovalStepsDiv}>
+              <div className={Style.loanApprovalStep}>
+                <div className={Style.stepNumberAndHeadingDiv}>
+                  <p className={Style.stepNumberPara}>1</p>
+                  <p className={Style.loanStepHeading}>Provide Your Information</p>
+                </div>
+                <p className={Style.loanStepExplanationPara}>
+                Fill in the required details, such as income, credit history, and other essential information to get started.
+                </p>
               </div>
-            ))}
-            <button type="submit" className={Style.submitButton}>
-              Predict
-            </button>
-          </form>
-
-          {/* Prediction Result */}
-          {predictionResult && (
-            <div className={Style.resultContainer}>
-              <h3>Prediction Result</h3>
-              <p>
-                <strong>Status:</strong> {predictionResult.result}
-              </p>
-              <p>
-                <strong>Approved Probability:</strong> {predictionResult.probabilities.Approved}
-              </p>
-              <p>
-                <strong>Rejected Probability:</strong> {predictionResult.probabilities.Rejected}
-              </p>
-              <p><strong>Reasons:</strong></p>
-              <ul>
-                {predictionResult.reasons.map((reason, index) => (
-                  <li key={index}>{reason[0]}: {reason[1]}</li>
-                ))}
-              </ul>
-              <p><strong>LIME Explanation:</strong></p>
-              <ul>
-                {predictionResult.lime_explanation.map((explanation, index) => (
-                  <li key={index}>{explanation[0]}: {explanation[1].toFixed(4)}</li>
-                ))}
-              </ul>
-
-              {/* Save Button */}
-              <button onClick={savePredictionResult} className={Style.saveButton}>
-                Save Prediction
-              </button>
+              <div className={Style.loanApprovalStep}>
+                <div className={Style.stepNumberAndHeadingDiv}>
+                  <p className={Style.stepNumberPara}>2</p>
+                  <p className={Style.loanStepHeading}>Smart Data Analysis</p>
+                </div>
+                <p className={Style.loanStepExplanationPara}>
+                Our advanced system processes your data using cutting-edge AI and machine learning models to ensure accuracy and fairness.
+                </p>
+              </div>
+              <div className={Style.loanApprovalStep}>
+                <div className={Style.stepNumberAndHeadingDiv}>
+                  <p className={Style.stepNumberPara}>3</p>
+                  <p className={Style.loanStepHeading}> Instant Loan Prediction</p>
+                </div>
+                <p className={Style.loanStepExplanationPara}>
+                Receive your loan approval status in seconds, along with a clear explanation of the results with parameters.
+                </p>
+              </div>
             </div>
-          )}
+          </div>
         </div>
       </div>
     </div>
@@ -185,4 +178,3 @@ function LoanApproval() {
 }
 
 export default LoanApproval;
-

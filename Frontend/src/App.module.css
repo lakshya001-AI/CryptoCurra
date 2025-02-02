@@ -823,3 +823,78 @@ html, body{
   .loadingContainer p {
     font-weight: bold;
   }
+
+
+  .loanApprovalMainDiv{
+    width: 100%;
+    height: 89.5vh;
+    background-color: rgb(18, 18, 18);
+    padding: 30px;
+    color: white;
+  }
+
+  .loanApprovalMainDivInnerDiv{
+    width: 100%;
+    height: 100%;
+    background-color: #1f1f1f;
+    border-radius: 40px;
+    padding: 20px;
+  }
+
+  .loanApprovalHeading{
+    font-size: 54px;
+    margin-left: 20px;
+    margin-top: 30px;
+  }
+
+  .loanApprovalPara{
+    font-size: 21px;
+    margin-left: 20px;
+  }
+
+  .loanApprovalStepsDiv{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0px 20px;
+    margin-top: 40px;
+  }
+
+  .loanApprovalStep{
+    width: 32%;
+    padding: 20px;
+    background: linear-gradient(to right, #4776E6 0%, #8E54E9 51%, #4776E6 100%);
+    background-size: 200% 200%;
+    color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    animation: gradient-animation 3s ease infinite;
+    transition: transform 0.3s ease;
+    margin-bottom: 25px;
+    height: 13vmax;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .loanStepExplanationPara{
+    margin-top: 20px;
+    font-size: 19px;
+  }
+
+  .loanStepHeading{
+    font-size: 28px;
+    font-weight: bold;
+    margin-left: 10px;
+  }
+
+
+
+
+
+
+
+
+ 
