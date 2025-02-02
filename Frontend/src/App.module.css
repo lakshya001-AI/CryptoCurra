@@ -844,7 +844,7 @@ html, body{
   .loanApprovalHeading{
     font-size: 54px;
     margin-left: 20px;
-    margin-top: 30px;
+    margin-top: 50px;
   }
 
   .loanApprovalPara{
@@ -859,7 +859,7 @@ html, body{
     align-items: center;
     justify-content: space-between;
     padding: 0px 20px;
-    margin-top: 40px;
+    margin-top: 50px;
   }
 
   .loanApprovalStep{
@@ -890,11 +890,119 @@ html, body{
     margin-left: 10px;
   }
 
+  .getPredictionBtnDiv{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 40px;
+  }
 
+  .getPredictionBtnDiv button {
+    padding: 20px 70px;
+    font-size: 17px;
+    background-color: transparent;
+    border: solid 2px white;
+    color: white;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+  }
+  
+  .getPredictionBtnDiv button:hover {
+    background: linear-gradient(to right, #4776E6 0%, #8E54E9 51%, #4776E6 100%);
+    color: white;
+    border: none;
+    box-shadow: 0 4px 15px rgba(71, 118, 230, 0.5);
+    transform: scale(1.05);
+  }
 
-
-
-
-
-
- 
+  /* Overlay Styles */
+.overlayPopup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999; /* Ensure the popup is on top of other content */
+    opacity: 0;
+    animation: fadeIn 0.3s forwards;
+  }
+  
+  /* Popup Content Styles */
+  .popupContent {
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 20px;
+    width: 90%;
+    max-width: 500px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    animation: slideIn 0.3s ease-out;
+    overflow-y: auto;
+  }
+  
+  .popupContent h2,
+  .popupContent h3 {
+    color: #333;
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+  }
+  
+  .popupContent ul {
+    list-style-type: none;
+    padding-left: 0;
+  }
+  
+  .popupContent ul li {
+    padding: 5px 0;
+    font-size: 1rem;
+    color: #555;
+  }
+  
+  .popupContent button {
+    background-color: #4caf50;
+    color: white;
+    padding: 10px 20px;
+    font-size: 1rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .popupContent button:hover {
+    background-color: #45a049;
+  }
+  
+  .closeButton {
+    background-color: #f44336;
+    margin-top: 10px;
+  }
+  
+  .closeButton:hover {
+    background-color: #e53935;
+  }
+  
+  /* Animations */
+  @keyframes fadeIn {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+  
+  @keyframes slideIn {
+    0% {
+      transform: translateY(-50px);
+    }
+    100% {
+      transform: translateY(0);
+    }
+  }
+  

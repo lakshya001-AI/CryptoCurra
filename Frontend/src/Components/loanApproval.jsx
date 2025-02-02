@@ -11,6 +11,8 @@ function LoanApproval() {
 
   const navigate = useNavigate();
   const [showUserInfo, setShowUserInfo] = useState(false);
+  const [showLoanFormPopup, setShowLoanFormPopup] = useState(false);
+  const [showPredictionPopup, setShowPredictionPopup] = useState(false);
   const [formData, setFormData] = useState({
     Gender: "",
     Married: "",
@@ -24,7 +26,6 @@ function LoanApproval() {
     Credit_History: "",
     Property_Area: "",
   });
-
   const [predictionResult, setPredictionResult] = useState(null);
 
   const handleChange = (e) => {
@@ -35,7 +36,6 @@ function LoanApproval() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Convert numeric fields to numbers where necessary
     const dataToSend = {
       ...formData,
       ApplicantIncome: Number(formData.ApplicantIncome),
@@ -46,16 +46,14 @@ function LoanApproval() {
     };
 
     try {
-      // Send request to backend for prediction
       const response = await axios.post(
         "http://localhost:5000/loanApproval",
         dataToSend
       );
       alert("Data sent successfully!");
-      console.log("Response from backend:", response.data);
-
-      // Update the prediction result state with the response data
       setPredictionResult(response.data);
+      setShowLoanFormPopup(false);
+      setShowPredictionPopup(true);
     } catch (error) {
       console.error("Error making prediction:", error);
       alert("An error occurred while making the request.");
@@ -64,17 +62,14 @@ function LoanApproval() {
 
   const savePredictionResult = async () => {
     try {
-      // Send the result to the backend to save it in the database
       const saveResponse = await axios.post(
         "http://localhost:5000/savePrediction",
         {
           predictionResult: predictionResult,
-          userEmailAddress: userEmailAddress, // Make sure to pass userEmailAddress
+          userEmailAddress: userEmailAddress,
         }
       );
-
       alert("Prediction saved successfully!");
-      console.log("Saved prediction:", saveResponse.data);
     } catch (error) {
       console.error("Error saving prediction:", error);
       alert("An error occurred while saving the result.");
@@ -134,8 +129,7 @@ function LoanApproval() {
         <div className={Style.loanApprovalMainDiv}>
           <div className={Style.loanApprovalMainDivInnerDiv}>
             <h1 className={Style.loanApprovalHeading}>
-              Know Your Loan Approval{" "}
-              <span class={Style.gradientText}>Instantly.</span>
+              Know Your Loan Approval <span className={Style.gradientText}>Instantly.</span>
             </h1>
             <p className={Style.loanApprovalPara}>
               Secure, Accurate, and Reliable
@@ -148,7 +142,7 @@ function LoanApproval() {
                   <p className={Style.loanStepHeading}>Provide Your Information</p>
                 </div>
                 <p className={Style.loanStepExplanationPara}>
-                Fill in the required details, such as income, credit history, and other essential information to get started.
+                  Fill in the required details, such as income, credit history, and other essential information to get started.
                 </p>
               </div>
               <div className={Style.loanApprovalStep}>
@@ -157,24 +151,111 @@ function LoanApproval() {
                   <p className={Style.loanStepHeading}>Smart Data Analysis</p>
                 </div>
                 <p className={Style.loanStepExplanationPara}>
-                Our advanced system processes your data using cutting-edge AI and machine learning models to ensure accuracy and fairness.
+                  Our advanced system processes your data using cutting-edge AI and machine learning models to ensure accuracy and fairness.
                 </p>
               </div>
               <div className={Style.loanApprovalStep}>
                 <div className={Style.stepNumberAndHeadingDiv}>
                   <p className={Style.stepNumberPara}>3</p>
-                  <p className={Style.loanStepHeading}> Instant Loan Prediction</p>
+                  <p className={Style.loanStepHeading}>Instant Loan Prediction</p>
                 </div>
                 <p className={Style.loanStepExplanationPara}>
-                Receive your loan approval status in seconds, along with a clear explanation of the results with parameters.
+                  Receive your loan approval status in seconds, along with a clear explanation of the results with parameters.
                 </p>
               </div>
+            </div>
+
+            <div className={Style.getPredictionBtnDiv}>
+              <button
+                onClick={() => setShowLoanFormPopup(true)}
+                className={Style.checkEligibilityBtn}
+              >
+                Check Loan Eligibility
+              </button>
             </div>
           </div>
         </div>
       </div>
+
+      {showLoanFormPopup && (
+        <div className={Style.overlayPopup}>
+          <div className={Style.popupContent}>
+            <h2>Loan Approval Prediction</h2>
+            <form onSubmit={handleSubmit}>
+              {Object.keys(formData).map((key) => (
+                <div key={key} className={Style.formGroup}>
+                  <label htmlFor={key}>{key.replace(/_/g, " ")}</label>
+                  <input
+                    type="text"
+                    id={key}
+                    name={key}
+                    value={formData[key]}
+                    onChange={handleChange}
+                    required
+                  />
+                </div>
+              ))}
+              <button type="submit" className={Style.submitButton}>
+                Predict
+              </button>
+              <button
+                type="button"
+                className={Style.closeButton}
+                onClick={() => setShowLoanFormPopup(false)}
+              >
+                Close
+              </button>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {showPredictionPopup && (
+        <div className={Style.overlayPopup}>
+          <div className={Style.popupContent}>
+            <h3>Prediction Result</h3>
+            {predictionResult && (
+              <div>
+                <p>
+                  <strong>Status:</strong> {predictionResult.result}
+                </p>
+                <p>
+                  <strong>Approved Probability:</strong> {predictionResult.probabilities.Approved}
+                </p>
+                <p>
+                  <strong>Rejected Probability:</strong> {predictionResult.probabilities.Rejected}
+                </p>
+                <p><strong>Reasons:</strong></p>
+                <ul>
+                  {predictionResult.reasons.map((reason, index) => (
+                    <li key={index}>{reason[0]}: {reason[1]}</li>
+                  ))}
+                </ul>
+                <p><strong>LIME Explanation:</strong></p>
+                <ul>
+                  {predictionResult.lime_explanation.map((explanation, index) => (
+                    <li key={index}>{explanation[0]}: {explanation[1].toFixed(4)}</li>
+                  ))}
+                </ul>
+                <button onClick={savePredictionResult} className={Style.saveButton}>
+                  Save Prediction
+                </button>
+                <button
+                  type="button"
+                  className={Style.closeButton}
+                  onClick={() => setShowPredictionPopup(false)}
+                >
+                  Close
+                </button>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 }
 
 export default LoanApproval;
+
+
