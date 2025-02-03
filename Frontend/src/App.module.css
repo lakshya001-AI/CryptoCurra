@@ -647,6 +647,8 @@ html, body{
     color: white;
 }
 
+
+
 /* Gradient for the first div */
 .biasPredictionMainDiv1 {
     width: 30%;
@@ -932,7 +934,7 @@ html, body{
   
   /* Popup Content Styles */
   .popupContent {
-    background-color: #ddd;
+    background-color: whitesmoke;
     border-radius: 8px;
     padding: 20px;
     width: 90%;
@@ -940,50 +942,30 @@ html, body{
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     animation: slideIn 0.3s ease-out;
     overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
   
   .popupContent h2,
   .popupContent h3 {
     color: #333;
-    font-size: 1.5rem;
-    margin-bottom: 10px;
+    font-size: 1.7rem;
+    margin-bottom: 20px;
   }
   
   .popupContent ul {
-    list-style-type: none;
-    padding-left: 0;
+    padding-left: 5px;
   }
   
   .popupContent ul li {
-    padding: 5px 0;
+    padding: 5px;
     font-size: 1rem;
-    color: #555;
+    color: #000000;
   }
   
-  .popupContent button {
-    background-color: #4caf50;
-    color: white;
-    padding: 10px 20px;
-    font-size: 1rem;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-  }
   
-  .popupContent button:hover {
-    background-color: #45a049;
-  }
-  
-  .closeButton {
-    background-color: #f44336;
-    margin-top: 10px;
-  }
-  
-  .closeButton:hover {
-    background-color: #e53935;
-  }
-  
+
   /* Animations */
   @keyframes fadeIn {
     0% {
@@ -1002,4 +984,131 @@ html, body{
       transform: translateY(0);
     }
   }
+
+  .formGroup{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .formGroup label{
+    font-size: 17px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+  }
+
+  .formGroup input{
+    padding: 5px 5px;
+    font-size: 15px;
+    margin-bottom: 5px;
+  }
+
+  .btnDiv{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin-top: 15px;
+  }
+
+  .btnDiv button{
+    width: 10vmax;
+    margin: 5px;
+    padding: 10px;
+  }
+
+  .predictBtn{
+    background: linear-gradient(to right, #4776E6 0%, #8E54E9  51%, #4776E6  100%);
+    text-align: center;
+    text-transform: uppercase;
+    background-size: 200% auto;
+    color: white;            
+    border: none;
+    cursor: pointer;
+    font-size: 15px;
+  }
+
+  .closeButton{
+    background: #3f3f3f;
+    color: white;
+    border: 0;
+    font-size: 15px;
+    cursor: pointer;
+  }
   
+
+  .predictionPara{
+    font-size: 18px;
+    margin: 10px;
+    font-style: italic
+  }
+
+  .section{
+    margin-bottom: 10px;
+  }
+
+  .financialAdviceMainDiv{
+    width: 100%;
+    height: 89.5vh;
+    background-color: rgb(18, 18, 18);
+    padding: 20px;
+    color: whitesmoke;
+    display: flex;
+    flex-direction: column;
+}
+
+.financialAdviceMainDiv h1{
+    font-size: 48px;
+    margin-top: 20px;
+    margin-left: 20px;
+}
+
+.financialAdviceMainDiv p{
+    font-size: 18px;
+    margin-top: 5px;
+    margin-left: 30px;
+}
+
+  .financialAdviceBtnDivs{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0px 30px;
+    margin-top: 30px;
+  }
+
+  .financialAdviceBtnDivs input{
+    width: 23vmax;
+    padding: 15px;
+    font-size: 17px;
+    background-color: transparent;
+    border: solid rgb(185, 184, 184) 2px;
+    border-radius: 30px;
+    color: white;
+  }
+
+  .financialAdviceBtnDivs button{
+    width: 20vmax;
+    padding: 18px 0px;
+    background: linear-gradient(to right, #4776E6 0%, #8E54E9  51%, #4776E6  100%);
+    text-align: center;
+    text-transform: uppercase;
+    background-size: 200% auto;
+    color: white;            
+    border: none;
+    cursor: pointer;
+    font-size: 18px;
+    border-radius: 50px;
+  }
+
+  .financialAdviceMainDiv2{
+    width: 100%;
+    background-color: #1f1f1f;
+    height: 52vh;
+    border-radius: 40px;
+    margin-top: 30px;
+    overflow-y: auto;
+  }

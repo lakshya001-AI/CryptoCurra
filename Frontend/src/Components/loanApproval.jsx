@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Style from "../App.module.css";
 import axios from "axios";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowRight , faCircleArrowRight} from "@fortawesome/free-solid-svg-icons";
 
 function LoanApproval() {
   let userFirstName = localStorage.getItem("userFirstName") || "John";
@@ -50,7 +52,6 @@ function LoanApproval() {
         "http://localhost:5000/loanApproval",
         dataToSend
       );
-      alert("Data sent successfully!");
       setPredictionResult(response.data);
       setShowLoanFormPopup(false);
       setShowPredictionPopup(true);
@@ -195,7 +196,8 @@ function LoanApproval() {
                   />
                 </div>
               ))}
-              <button type="submit" className={Style.submitButton}>
+              <div className={Style.btnDiv}>
+              <button type="submit" className={Style.predictBtn}>
                 Predict
               </button>
               <button
@@ -205,12 +207,13 @@ function LoanApproval() {
               >
                 Close
               </button>
+              </div>
             </form>
           </div>
         </div>
       )}
 
-      {showPredictionPopup && (
+      {/* {showPredictionPopup && (
         <div className={Style.overlayPopup}>
           <div className={Style.popupContent}>
             <h3>Prediction Result</h3>
@@ -251,7 +254,67 @@ function LoanApproval() {
             )}
           </div>
         </div>
+      )} */}
+
+{showPredictionPopup && (
+  <div className={Style.overlayPopup}>
+    <div className={Style.popupContent}>
+      <h2>Prediction Summary</h2>
+      <hr />
+      {predictionResult ? (
+        <div>
+          <section className={Style.section}>
+            <p className={Style.predictionPara}><FontAwesomeIcon icon={faCircleArrowRight}/> Status</p>
+            <ul>
+              <li><strong>Application Status:</strong> {predictionResult.result}</li>
+              <li><strong>Approval Probability:</strong> {(predictionResult.probabilities.Approved * 100).toFixed(2)}%</li>
+              <li><strong>Rejection Probability:</strong> {(predictionResult.probabilities.Rejected * 100).toFixed(2)}%</li>
+            </ul>
+          </section>
+
+          <hr />
+
+          <section className={Style.section}>
+            <p className={Style.predictionPara}><FontAwesomeIcon icon={faCircleArrowRight}/> Reason for Decision</p>
+            <ul className={Style.reasonsList}>
+              {predictionResult.reasons.map((reason, index) => (
+                <li key={index}><strong>{reason[0]}:</strong> {reason[1]}</li>
+              ))}
+            </ul>
+          </section>
+
+          
+          <hr />
+
+          <section className={Style.section}>
+            <p className={Style.predictionPara}><FontAwesomeIcon icon={faCircleArrowRight}/> LIME Analysis</p>
+            <ul className={Style.explanationList}>
+              {predictionResult.lime_explanation.map((explanation, index) => (
+                <li key={index}><strong>{explanation[0]}:</strong> {explanation[1].toFixed(4)}</li>
+              ))}
+            </ul>
+          </section>
+
+          <div className={Style.btnDiv}>
+            <button onClick={savePredictionResult} className={Style.predictBtn}>
+              Save Prediction
+            </button>
+            <button
+              type="button"
+              className={Style.closeButton}
+              onClick={() => setShowPredictionPopup(false)}
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      ) : (
+        <p>No prediction result available.</p>
       )}
+    </div>
+  </div>
+)}
+
     </div>
   );
 }
