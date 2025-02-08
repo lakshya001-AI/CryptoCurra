@@ -351,44 +351,132 @@ app.post("/savePrediction", async (req, res) => {
 // });
 
 app.post("/api/financial-advice", async (req, res) => {
+  console.log("Received request with body:", req.body);
+
   try {
     const { salary, expenses, savings, adviceType } = req.body;
 
-    // Validate all required inputs
+    // Validate inputs
     if (!salary || !expenses || !savings || !adviceType) {
+      console.log("Missing required fields:", {
+        salary,
+        expenses,
+        savings,
+        adviceType,
+      });
       return res.status(400).json({
         error: "Please provide all required details, including advice type.",
       });
     }
 
-    // Construct user input with advice type
-
-    const userInput = `I earn ₹${salary} per month and spend ₹${expenses} monthly, with current savings of ₹${savings} in india. Based on my financial situation, provide well-structured financial advice, categorized into the following sections:
-
-1. **Savings & Net Worth** - Analyze my net worth and suggest an optimal savings strategy.  
-2. **Investment Strategy** - Recommend suitable investment options for long-term growth.  
-3. **Risk Management** - Assess potential financial risks and suggest ways to mitigate them.  
-4. **Future Planning** - Provide insights on managing future income growth and long-term financial goals.  
-
-Ensure the advice is clear, concise, and actionable. Format it properly for easy readability.`;
-
-    const response = await ollama.generate({
-      model: "deepseek-r1:1.5b",
-      prompt: userInput,
-      temperature: 0.4,
+    // Set headers for streaming
+    res.writeHead(200, {
+      "Content-Type": "text/event-stream",
+      "Cache-Control": "no-cache",
+      Connection: "keep-alive",
+      "Access-Control-Allow-Origin": "*",
     });
 
-    // Remove <think>...</think> tags using regex
-    const cleanResponse = response.response
-      .replace(/<think>.*?<\/think>/gs, "")
-      .trim();
+    const messages = [
+      {
+        role: "user",
+        content: `As a financial advisor, analyze this situation and provide advice:
+Monthly salary: ₹${salary}
+Monthly expenses: ₹${expenses}
+Total savings: ₹${savings}
+Advice type needed: ₹${adviceType}
 
-    // const formattedResponse = marked.parse(cleanResponse);
-    // res.json({ advice: formattedResponse });
-    res.json({ advice: cleanResponse });
+Provide practical, actionable financial advice focusing on ${adviceType}.`,
+      },
+    ];
+
+    try {
+      // Create text stream
+      const textStream = await ollama.chat({
+        model: "deepseek-r1:1.5b",
+        messages: messages,
+        stream: true,
+      });
+
+      console.log("Stream started");
+
+      let accumulatedContent = "";
+      let isInThinkTag = false;
+      let thinkContent = "";
+
+      // Stream the response
+      for await (const chunk of textStream) {
+        if (chunk.message?.content) {
+          accumulatedContent += chunk.message.content;
+
+          // Check for complete think tags
+          if (accumulatedContent.includes("<think>") && !isInThinkTag) {
+            isInThinkTag = true;
+          }
+
+          if (isInThinkTag && accumulatedContent.includes("</think>")) {
+            // Extract think content
+            const thinkMatch = accumulatedContent.match(
+              /<think>([\s\S]*?)<\/think>/
+            );
+            if (thinkMatch) {
+              thinkContent = thinkMatch[1];
+
+              // Get content after think tag
+              const remainingContent =
+                accumulatedContent.split("</think>")[1] || "";
+
+              // Send both think content and remaining content
+              res.write(
+                `data: ${JSON.stringify({
+                  think: thinkContent,
+                  text: remainingContent,
+                })}\n\n`
+              );
+
+              // Reset accumulator to just the remaining content
+              accumulatedContent = remainingContent;
+              isInThinkTag = false;
+            }
+          } else if (!isInThinkTag && accumulatedContent.trim()) {
+            // If we're not in a think tag and have content, send it
+            res.write(
+              `data: ${JSON.stringify({
+                text: accumulatedContent,
+              })}\n\n`
+            );
+            accumulatedContent = "";
+          }
+        }
+      }
+
+      // Send any remaining content
+      if (accumulatedContent.trim()) {
+        res.write(
+          `data: ${JSON.stringify({
+            text: accumulatedContent,
+          })}\n\n`
+        );
+      }
+
+      console.log("Stream completed");
+      res.write("data: [DONE]\n\n");
+    } catch (streamError) {
+      console.error("Streaming error:", streamError);
+      res.write(
+        `data: ${JSON.stringify({ error: "Stream error occurred" })}\n\n`
+      );
+    } finally {
+      res.end();
+    }
   } catch (error) {
-    console.error("Error:", error);
-    res.status(500).json({ error: "Failed to generate advice" });
+    console.error("Error in financial advice endpoint:", error);
+    if (!res.headersSent) {
+      res.status(500).json({ error: "Failed to generate advice" });
+    } else {
+      res.write(`data: ${JSON.stringify({ error: "Error occurred" })}\n\n`);
+      res.end();
+    }
   }
 });
 

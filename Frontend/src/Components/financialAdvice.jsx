@@ -186,8 +186,9 @@ import Style from "../App.module.css";
 function FinancialAdvice() {
   const navigate = useNavigate();
   const [showUserInfo, setShowUserInfo] = useState(false);
-  const [typedText, setTypedText] = useState(""); // State to hold typed text
+  const [displayText, setDisplayText] = useState("");
   const [loading, setLoading] = useState(false);
+  const [showThink, setShowThink] = useState(true); // New state for toggle
 
   function logoutUser() {
     localStorage.removeItem("authToken");
@@ -202,12 +203,11 @@ function FinancialAdvice() {
   const [salary, setSalary] = useState("");
   const [expenses, setExpenses] = useState("");
   const [savings, setSavings] = useState("");
-  const [adviceType, setAdviceType] = useState(""); // State for advice type
-  const [advice, setAdvice] = useState("");
+  const [adviceType, setAdviceType] = useState("");
 
   const handleSubmit = async () => {
     setLoading(true);
-    setTypedText(""); // Clear previous typed text
+    setDisplayText("");
 
     try {
       const response = await fetch(
@@ -217,41 +217,75 @@ function FinancialAdvice() {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ salary, expenses, savings, adviceType }),
+          body: JSON.stringify({
+            salary,
+            expenses,
+            savings,
+            adviceType,
+          }),
         }
       );
 
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || `HTTP error ${response.status}`);
-      }
+      const reader = response.body.getReader();
+      const decoder = new TextDecoder();
 
-      const data = await response.json();
+      while (true) {
+        const { value, done } = await reader.read();
+        if (done) {
+          setLoading(false);
+          break;
+        }
 
-      if (data.advice) {
-        setAdvice(data.advice);
-        typeWriterEffect(data.advice); // Trigger typewriter effect when advice is received
-      } else {
-        setAdvice("No advice received from the server.");
+        const chunk = decoder.decode(value);
+        const lines = chunk.split("\n");
+
+        lines.forEach((line) => {
+          if (line.startsWith("data: ")) {
+            const data = line.slice(6);
+            if (data === "[DONE]") {
+              setLoading(false);
+              return;
+            }
+            try {
+              const parsedData = JSON.parse(data);
+              setDisplayText((prev) => prev + parsedData.text);
+            } catch (e) {
+              console.error("Error parsing JSON:", e);
+            }
+          }
+        });
       }
     } catch (error) {
       console.error("Error fetching advice:", error);
-      setAdvice("An error occurred: " + error.message);
-    } finally {
       setLoading(false);
     }
   };
 
-  const typeWriterEffect = (text) => {
-    let index = 0;
-    const lines = text.split("\n"); // Split the response by new lines for line-by-line typing
-    const timer = setInterval(() => {
-      setTypedText((prev) => prev + lines[index] + "\n"); // Append each line to the typed text
-      index += 1;
-      if (index === lines.length) {
-        clearInterval(timer); // Stop when all lines are typed
-      }
-    }, 100); // Adjust the speed (100 ms per character)
+  // Function to process and format the displayed text
+  const formatDisplayText = (text) => {
+    const thinkContent =
+      text.match(/\*\*Think:\*\*(.*?)(\*\*Final Answer:\*\*|$)/s)?.[1] || "";
+    const answerContent = text.split(/\*\*Final Answer:\*\*/s)[1] || "";
+
+    return (
+      <>
+        {showThink && thinkContent && (
+          <span style={{ color: "#666", fontStyle: "italic" }}>
+            {thinkContent}
+          </span>
+        )}
+        {answerContent && (
+          <span style={{ color: "#333" }}>{answerContent}</span>
+        )}
+      </>
+    );
+  };
+
+  const processStreamData = (text) => {
+    const thinkMatch = text.match(/<think>([\s\S]*?)<\/think>/);
+    const thinkContent = thinkMatch ? thinkMatch[1].trim() : "";
+    const mainContent = text.split("</think>")[1]?.trim() || text;
+    return { thinkContent, mainContent };
   };
 
   return (
@@ -278,12 +312,12 @@ function FinancialAdvice() {
           </div>
 
           <div className={Style.ProfileBtnNavBarMainPage}>
-            <Link
-                           className={Style.profileBtn}
-                           to="/profilePage"
-                         >
-                           Profile
-                         </Link>
+            <button
+              className={Style.profileBtn}
+              onClick={() => setShowUserInfo(!showUserInfo)}
+            >
+              Profile
+            </button>
 
             {showUserInfo && (
               <div className={Style.userInfoDiv}>
@@ -302,7 +336,7 @@ function FinancialAdvice() {
         <div className={Style.financialAdviceMainDiv}>
           <div className={Style.financialAdviceMainDiv1}>
             <h1>
-              Your Guide to Financial {" "}
+              Your Guide to Financial{" "}
               <span className={Style.gradientText}>Wellness.</span>
             </h1>
             <p>
@@ -355,10 +389,19 @@ function FinancialAdvice() {
           </div>
 
           <div className={Style.financialAdviceMainDiv2}>
-            {typedText ? (
-              <div style={{ padding: "30px" }}>
-                <pre style={{ whiteSpace: "pre-wrap", fontSize: "16px" }}>
-                  {typedText} {/* Displaying the typed text */}
+            {displayText ? (
+              <div style={{ padding: "30px", backgroundColor: "#1f1f1f" }}>
+                <pre
+                  style={{
+                    whiteSpace: "pre-wrap",
+                    fontSize: "16px",
+                    fontFamily: "system-ui, -apple-system, sans-serif",
+                    lineHeight: "1.6",
+                    color: "#fff",
+                    margin: 0,
+                  }}
+                >
+                  {displayText}
                 </pre>
               </div>
             ) : (
@@ -382,4 +425,3 @@ function FinancialAdvice() {
 }
 
 export default FinancialAdvice;
-
