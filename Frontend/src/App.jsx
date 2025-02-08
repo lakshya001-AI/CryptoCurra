@@ -9,6 +9,7 @@ import ProtectedRoute from './Components/protectedRoute';
 import BiasDetection from './Components/biasDetection';
 import LoanApproval from './Components/loanApproval';
 import FinancialAdvice from './Components/financialAdvice';
+import ProfilePage from './Components/profilePage';
 
 function App() {
   return <>
@@ -20,6 +21,7 @@ function App() {
     <Route path='/biasDetection' element={<ProtectedRoute><BiasDetection/></ProtectedRoute>}/>
     <Route path='/loanApproval' element={<ProtectedRoute><LoanApproval/></ProtectedRoute>}/>
     <Route path='/financialAdvice' element={<ProtectedRoute><FinancialAdvice/></ProtectedRoute>}/>
+    <Route path='/profilePage' element={<ProtectedRoute><ProfilePage/></ProtectedRoute>}/>
   </Routes>
   </BrowserRouter>
   </>

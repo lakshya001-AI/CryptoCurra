@@ -106,12 +106,12 @@ function LoanApproval() {
           </div>
 
           <div className={Style.ProfileBtnNavBarMainPage}>
-            <button
-              className={Style.profileBtn}
-              onClick={() => setShowUserInfo(!showUserInfo)}
-            >
-              Profile
-            </button>
+            <Link
+                           className={Style.profileBtn}
+                           to="/profilePage"
+                         >
+                           Profile
+                         </Link>
 
             {showUserInfo && (
               <div className={Style.userInfoDiv}>

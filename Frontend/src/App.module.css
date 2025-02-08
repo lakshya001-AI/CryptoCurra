@@ -273,6 +273,7 @@ html, body{
     border: none;
     cursor: pointer;
     font-size: 14px;
+    text-decoration: none;
 }
 
 .profileBtn:hover{

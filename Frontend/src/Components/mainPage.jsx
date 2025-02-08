@@ -43,12 +43,12 @@ function MainPage() {
             </div>
 
             <div className={Style.ProfileBtnNavBarMainPage}>
-              <button
+              <Link
                 className={Style.profileBtn}
-                onClick={() => setShowUserInfo(!showUserInfo)}
+                to="/profilePage"
               >
                 Profile
-              </button>
+              </Link>
 
               {showUserInfo && (
                 <div className={Style.userInfoDiv}>
