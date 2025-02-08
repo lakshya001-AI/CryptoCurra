@@ -188,8 +188,10 @@ function BiasDetection() {
 
           <div className={Style.biasPredictionMainDiv2}>
             <form onSubmit={handleSubmit}>
+              <label htmlFor="file-upload">Please provide the Deployed Model Link</label>
+              <input type="text" id="file-upload" className={Style.modelLinkInput} placeholder="Deployed Model Link"/>
               <label htmlFor="file-upload">Please upload the CSV File</label>
-              <input type="file" id="file-upload" onChange={handleFileChange} />
+              <input type="file" id="file-upload" onChange={handleFileChange} placeholder="Please"/>
               <button type="submit">Analyze</button>
             </form>
             {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}

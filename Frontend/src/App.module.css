@@ -666,7 +666,7 @@ html, body{
     width: 70%;
     background-color: #1f1f1f;
     border-radius: 15px;
-    padding: 20px;
+    padding: 5px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
@@ -712,7 +712,7 @@ html, body{
     width: 70%;
     background-color: #1a1a1a;
     color: white;
-    padding: 30px;
+    padding: 20px;
     border: 1px solid #4776E6;
     border-radius: 5px;
     cursor: pointer;
@@ -755,7 +755,7 @@ html, body{
 }
 
 .resultsContainer {
-    padding: 20px;
+    padding: 10px;
     border-radius: 15px;
   }
   
@@ -766,7 +766,7 @@ html, body{
   }
   
   .resultsContainer p, .resultsContainer ul {
-    font-size: 16px;
+    font-size: 15px;
     color: #ddd;
   }
   
@@ -784,7 +784,7 @@ html, body{
     margin-top: 30px;
     text-align: left;
     margin-left: 10px;
-    font-size: 28px;
+    font-size: 20px;
     color: white;
   }
   
@@ -1126,4 +1126,16 @@ html, body{
     border-radius: 40px;
     margin-top: 30px;
     overflow-y: auto;
+  }
+
+  .modelLinkInput{
+    width: 70%;
+    background-color: #1a1a1a;
+    color: white;
+    padding: 20px;
+    border: 1px solid #4776E6;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 17px;
+    border-radius: 10px;
   }
