@@ -962,12 +962,14 @@ html, body{
     padding: 20px;
     width: 90%;
     max-width: 500px;
+    height: 80%;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     animation: slideIn 0.3s ease-out;
     overflow-y: auto;
     display: flex;
     flex-direction: column;
     align-items: center;
+    overflow-y: auto;
   }
   
   .popupContent h2,
@@ -1064,7 +1066,7 @@ html, body{
 
   .predictionPara{
     font-size: 18px;
-    margin: 10px;
+    margin:15px;
     font-style: italic
   }
 
