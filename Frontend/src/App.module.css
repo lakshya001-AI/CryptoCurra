@@ -1081,13 +1081,28 @@ html, body{
   }
 
   .financialAdviceBtnDivs input{
-    width: 23vmax;
+    width: 18vmax;
     padding: 15px;
     font-size: 17px;
     background-color: transparent;
     border: solid rgb(185, 184, 184) 2px;
     border-radius: 30px;
     color: white;
+  }
+
+  .dropdown{
+    width: 18vmax;
+    padding: 15px;
+    font-size: 17px;
+    background-color: transparent;
+    border: solid rgb(185, 184, 184) 2px;
+    border-radius: 30px;
+    color: white;
+  }
+
+  .dropdown option{
+    color: black;
+    background: transparent;
   }
 
   .financialAdviceBtnDivs button{
