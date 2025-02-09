@@ -1237,3 +1237,11 @@ html, body{
   .groupAnalysisItem{
     list-style: none;
   }
+
+  .mitigationAdvicePara{
+    text-align: center;
+  }
+
+  .conclusionHeading{
+    
+  }
